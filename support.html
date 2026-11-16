@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Поддержать автора — Проза жизни</title>
+  <meta name="description" content="Поддержать творчество писателя Дениса Дробышева: выберите сумму и оплатите по QR-коду.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Marck+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header class="hero">
+    <div class="hero__title">
+      <h1 class="logo">Проза жизни</h1>
+      <p class="subtitle">Творчество писателя<br>Дениса Дробышева</p>
+    </div>
+
+    <nav class="nav" aria-label="Основное меню">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="stories.html">Рассказы</a></li>
+        <li><a href="novellas.html">Повести</a></li>
+        <li><a href="essays.html">Очерки</a></li>
+        <li><a href="about.html">Об авторе</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+        <li><a href="support.html" aria-current="page">Поддержать автора</a></li>
+      </ul>
+      <img
+        class="nav__quill"
+        src="img/quill.svg"
+        alt=""
+        aria-hidden="true"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <svg class="nav__quill" viewBox="0 0 48 48" aria-hidden="true" style="display: none;">
+        <path fill="currentColor" d="M43 4C31 5 20 11 15 22c-2 4-3 8-3 12L6 43l2 1 6-7c4 0 8-1 12-3 11-5 17-16 17-30zM20 30c3-8 9-14 17-18-3 8-9 14-17 18z"/>
+      </svg>
+    </nav>
+     
+    <p class="tagline">О жизни. О людях. О важном…</p>
+  </header>
+
+  <main class="support">
+    <section class="support-card" aria-labelledby="support-title">
+      <p class="kicker">Поддержка независимого автора</p>
+      <h1 id="support-title">Поддержать автора</h1>
+      <p>Если мои тексты вам близки, вы можете поддержать их небольшой суммой. Выберите сумму, отсканируйте QR-код в приложении банка или откройте ссылку для оплаты на телефоне.</p>
+      <p class="support-note">Каждый вклад помогает мне писать новые рассказы, повести и очерки. Спасибо вам!</p>
+
+      <h2 class="featured__title"><span>Выберите сумму</span></h2>
+      <div class="amounts" id="amounts" role="group" aria-label="Сумма поддержки"></div>
+
+      <div class="pay" id="pay" hidden>
+        <div class="qr" id="qr"></div>
+        <p class="scanhint" id="scanhint"></p>
+        <a class="btn btn--solid" id="open" href="#" target="_blank" rel="noopener" hidden>Открыть в банке</a>
+
+        <dl class="details" id="details">
+          <div class="detail">
+            <dt>Получатель</dt>
+            <dd><span id="f-name"></span><button class="btn-copy" data-copy="name" type="button">Копировать</button></dd>
+          </div>
+          <div class="detail">
+            <dt>IBAN</dt>
+            <dd><span id="f-iban"></span><button class="btn-copy" data-copy="iban" type="button">Копировать</button></dd>
+          </div>
+          <div class="detail">
+            <dt>Сумма</dt>
+            <dd><span id="f-amount"></span><button class="btn-copy" data-copy="amount" type="button">Копировать</button></dd>
+          </div>
+          <div class="detail">
+            <dt>Пояснение</dt>
+            <dd><span id="f-note"></span><button class="btn-copy" data-copy="note" type="button">Копировать</button></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer class="footer">
+    <div class="footer__row">
+      <blockquote class="footer__quote">
+        <p>«Проза жизни — в деталях, в людях, в наших маленьких и больших историях…»</p>
+      </blockquote>
+      <a class="btn btn--solid" href="stories.html">
+        <svg viewBox="0 0 32 24" aria-hidden="true">
+          <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"
+                d="M16 5C13 3 8 2.5 2 3v17c6-.5 11 0 14 2 3-2 8-2.5 14-2V3c-6-.5-11 0-14 2zM16 5v17"/>
+        </svg>
+        Читать произведения
+      </a>
+    </div>
+    <p class="footer__note">© 2026 Денис Дробышев. Иллюстрации на сайте созданы с помощью ИИ.</p>
+  </footer>
+
+<script>
+(function () {
+  // ====== НАСТРОЙКИ: замените шаблонные значения на свои ======
+  var CONFIG = {
+    name: "Имя Фамилия",                 // получатель платежа
+    iban: "EE000000000000000000",    // ваш IBAN
+    note: "Поддержка автора",            // пояснение к платежу
+    showDetails: true,                   // false — скрыть реквизиты под QR-кодом
+    amounts: [
+      // amount — сумма в евро
+      // qr     — путь к картинке QR-кода (EPC) из репозитория
+      // link   — ссылка на оплату из приложения банка; "" — кнопка «Открыть в банке» не покажется
+      { amount: 5,  qr: "img/qr/5.png",  link: "" },
+      { amount: 10, qr: "img/qr/10.png", link: "" },
+      { amount: 15, qr: "img/qr/15.png", link: "" },
+      { amount: 20, qr: "img/qr/20.png", link: "" }
+    ]
+  };
+  // =============================================================
+
+  var iban = CONFIG.iban.replace(/\s+/g, "").toUpperCase();
+  var values = {};
+  var box = document.getElementById("amounts");
+  var $ = function (id) { return document.getElementById(id); };
+
+  function showAmount(item, button) {
+    Array.prototype.forEach.call(box.children, function (c) {
+      c.classList.remove("active");
+      c.setAttribute("aria-pressed", "false");
+    });
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+
+    var qrBox = $("qr");
+    qrBox.innerHTML = "";
+    qrBox.hidden = !item.qr;
+    if (item.qr) {
+      var img = document.createElement("img");
+      img.alt = "QR-код для платежа на " + item.amount + " €";
+      img.src = item.qr;
+      img.onerror = function () { qrBox.textContent = "QR-код не найден: проверьте путь " + item.qr; };
+      qrBox.appendChild(img);
+    }
+    $("scanhint").textContent = item.qr
+      ? "Отсканируйте QR-код в приложении банка. Данные платежа заполнятся сами."
+      : "";
+
+    var open = $("open");
+    if (item.link) { open.href = item.link; open.hidden = false; }
+    else { open.hidden = true; }
+
+    values = {
+      name: CONFIG.name,
+      iban: iban,
+      amount: item.amount.toFixed(2),
+      note: CONFIG.note
+    };
+    $("f-name").textContent = CONFIG.name;
+    $("f-iban").textContent = iban.replace(/(.{4})/g, "$1 ").trim();
+    $("f-amount").textContent = item.amount.toFixed(2) + " EUR";
+    $("f-note").textContent = CONFIG.note;
+    $("details").hidden = !CONFIG.showDetails;
+    $("pay").hidden = false;
+  }
+
+  CONFIG.amounts.forEach(function (item) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "amount-btn";
+    b.setAttribute("aria-pressed", "false");
+    b.textContent = item.amount + " €";
+    b.addEventListener("click", function () { showAmount(item, b); });
+    box.appendChild(b);
+  });
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy") ? resolve() : reject(); }
+      catch (e) { reject(e); }
+      document.body.removeChild(ta);
+    });
+  }
+
+  document.querySelectorAll(".btn-copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = values[btn.getAttribute("data-copy")];
+      var old = btn.textContent;
+      copyText(text).then(function () {
+        btn.textContent = "Готово";
+        setTimeout(function () { btn.textContent = old; }, 1200);
+      }).catch(function () {
+        btn.textContent = "Не вышло";
+        setTimeout(function () { btn.textContent = old; }, 1200);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

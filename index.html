@@ -3,52 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Проза жизни — Денис Дробышев</title>
-  <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+  <title>Проза жизни — творчество писателя Дениса Дробышева</title>
+  <meta name="description" content="Рассказы, повести и очерки Дениса Дробышева. О жизни. О людях. О важном.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Marck+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- ШАПКА -->
   <header class="hero">
-    <h1>Проза жизни</h1>
-    <p class="subtitle">Творчество писателя Дениса Дробышева</p>
-    <nav>
-      <a class="active" href="#">Главная</a>
-      <a href="stories.html">Рассказы</a>
-      <a href="novellas.html">Повести</a>
-      <a href="essays.html">Очерки</a>
-      <a href="about.html">Об авторе</a>
-      <a href="contacts.html">Контакты</a>
+    <div class="hero__title">
+      <h1 class="logo">Проза жизни</h1>
+      <p class="subtitle">Творчество писателя<br>Дениса Дробышева</p>
+    </div>
+
+    <nav class="nav" aria-label="Основное меню">
+      <ul>
+        <li><a href="index.html" aria-current="page">Главная</a></li>
+        <li><a href="stories.html">Рассказы</a></li>
+        <li><a href="novellas.html">Повести</a></li>
+        <li><a href="essays.html">Очерки</a></li>
+        <li><a href="about.html">Об авторе</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+        <li><a href="support.html">Поддержать автора</a></li>
+      </ul>
+     <img
+        class="nav__quill"
+        src="img/quill.svg"
+        alt=""
+        aria-hidden="true"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+    >
+      <svg class="nav__quill" viewBox="0 0 48 48" aria-hidden="true" style="display: none;">
+        <path fill="currentColor" d="M43 4C31 5 20 11 15 22c-2 4-3 8-3 12L6 43l2 1 6-7c4 0 8-1 12-3 11-5 17-16 17-30zM20 30c3-8 9-14 17-18-3 8-9 14-17 18z"/>
+      </svg>
     </nav>
+
     <p class="tagline">О жизни. О людях. О важном…</p>
   </header>
 
-  <main class="content">
-    <section class="welcome">
-      <img class="portrait" src="img/author.jpg" alt="Денис Дробышев">
-      <div>
-        <h2>Добро пожаловать!</h2>
-        <p>Я — Денис Дробышев. Пишу о жизни…</p>
-        <img class="signature" src="img/signature.png" alt="">
+  <main class="main">
+
+    <!-- ПРИВЕТСТВИЕ -->
+    <section class="welcome" aria-labelledby="welcome-title">
+      <figure class="portrait">
+        <img src="img/author.jpg" alt="Денис Дробышев">
+      </figure>
+
+      <div class="welcome__text">
+        <h2 id="welcome-title">Добро пожаловать!</h2>
+        <p>Я — <strong>Денис Дробышев</strong>. Пишу о жизни — такой, какая она есть: с её радостями и трудностями, мечтами и разочарованиями, любовью и поиском себя.</p>
+        <p>В моих рассказах и повестях — реальные люди, узнаваемые ситуации и, конечно, немного надежды.</p>
+        <img class="signature" src="img/signature.svg" alt="Подпись: Денис Дробышев">
       </div>
     </section>
 
-    <section class="featured">
-      <h2>Избранные произведения</h2>
+    <!-- ИЗБРАННОЕ -->
+    <section class="featured" aria-labelledby="featured-title">
+      <h2 id="featured-title" class="featured__title"><span>Избранные произведения</span></h2>
+
       <div class="cards">
-        <article class="card">
-          <img src="img/autumn.jpg" alt="">
-          <h3>Рассказы</h3>
-          <p>Жизненные истории в коротком формате</p>
-          <a class="btn-outline" href="stories.html">Читать далее →</a>
+        <article class="work">
+          <a class="work__card" href="stories.html">
+            <img src="img/autumn.jpg" alt="Скамейка в осеннем парке">
+            <div class="work__body">
+              <h3>Рассказы</h3>
+              <p>Жизненные истории в коротком формате</p>
+            </div>
+          </a>
+          <a class="btn btn--outline" href="stories.html">Читать далее →</a>
         </article>
-        <!-- ещё две карточки -->
+
+        <article class="work">
+          <a class="work__card" href="novellas.html">
+            <img src="img/lighthouse.jpg" alt="Маяк на берегу моря">
+            <div class="work__body">
+              <h3>Повесть</h3>
+              <p>Путь к себе</p>
+            </div>
+          </a>
+          <a class="btn btn--outline" href="novellas.html">Читать далее →</a>
+        </article>
+
+        <article class="work">
+          <a class="work__card" href="essays.html">
+            <img src="img/street.jpg" alt="Старая улочка на закате">
+            <div class="work__body">
+              <h3>Очерки</h3>
+              <p>Заметки о жизни и путешествиях</p>
+            </div>
+          </a>
+          <a class="btn btn--outline" href="essays.html">Читать далее →</a>
+        </article>
       </div>
     </section>
+
   </main>
 
-  <footer>
-    <blockquote>«Проза жизни — в деталях, в людях…»</blockquote>
-    <a class="btn" href="stories.html">Читать произведения</a>
+  <!-- ПОДВАЛ -->
+  <footer class="footer">
+    <div class="footer__row">
+      <blockquote class="footer__quote">
+        <p>«Проза жизни — в деталях, в людях, в наших маленьких и больших историях…»</p>
+      </blockquote>
+      <a class="btn btn--solid" href="stories.html">
+        <svg viewBox="0 0 32 24" aria-hidden="true">
+          <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"
+                d="M16 5C13 3 8 2.5 2 3v17c6-.5 11 0 14 2 3-2 8-2.500 14-2V3c-6-.5-11 0-14 2zM16 5v17"/>
+        </svg>
+        Читать произведения
+      </a>
+    </div>
+    <p class="footer__note">© 2026 Денис Дробышев. Иллюстрации на сайте созданы с помощью ИИ.</p>
   </footer>
+
 </body>
 </html>

@@ -1,16 +1,585 @@
-:root { --navy:#1f3a5f; --cream:#f8f1e7; --gold:#d4a24c; }
-body { margin:0; background:var(--cream); font-family:'Lora',serif; color:#2b2b2b; }
-.hero { min-height:430px; background:url(img/hero.jpg) center/cover; padding:30px 60px; position:relative; }
-.hero h1 { font-family:'Marck Script',cursive; font-size:90px; color:var(--navy); margin:0; }
-nav { position:absolute; top:30px; right:60px; display:flex; gap:24px; }
-nav a { text-decoration:none; color:var(--navy); padding:8px 16px; border-radius:6px; }
-nav a.active { background:var(--navy); color:#fff; }
-.content { display:grid; grid-template-columns:1fr 1.4fr; gap:40px; padding:40px 60px; }
-.portrait { width:260px; padding:10px; background:#fff; box-shadow:0 4px 14px #0003; transform:rotate(-3deg); }
-.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.card { background:#fff; box-shadow:0 2px 8px #0002; text-align:center; padding-bottom:16px; }
-.card img { width:100%; height:180px; object-fit:cover; }
-.btn, .btn-outline { border-radius:20px; padding:10px 20px; text-decoration:none; }
-.btn { background:var(--navy); color:#fff; border-radius:6px; }
-.btn-outline { border:1px solid var(--navy); color:var(--navy); }
-@media (max-width:800px){ .content,.cards{grid-template-columns:1fr;} .hero h1{font-size:52px;} nav{position:static;flex-wrap:wrap;} }
+/* ===== Проза жизни — стили ===== */
+
+:root {
+  --navy: #1f3a5f;
+  --navy-deep: #18304f;
+  --cream: #f8f1e7;
+  --cream-dark: #efe3d0;
+  --gold: #d4a24c;
+  --ink: #2b2b2b;
+
+  --font-script: "Marck Script", "Segoe Script", cursive;
+  --font-logo: "Great Vibes", "Marck Script", "Segoe Script", cursive;
+  --font-serif: "PT Serif", Georgia, "Times New Roman", serif;
+
+  --page-pad: clamp(20px, 4vw, 60px);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  /* текстура бумаги (img/paper.jpg) необязательна — без неё будет ровный кремовый */
+  background: url("img/paper.jpg") center / cover fixed, var(--cream);
+}
+
+img { max-width: 100%; display: block; }
+
+a:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ===== ШАПКА ===== */
+
+.hero {
+  position: relative;
+  min-height: clamp(380px, 42vw, 650px);
+  padding: clamp(20px, 3vw, 40px) var(--page-pad) 60px;
+  /* img/hero.jpg — море, город, книги, кружка; градиент — запасной фон */
+  background:
+    url("img/hero.jpg") center bottom / cover no-repeat,
+    linear-gradient(180deg, #e9d9e0 0%, #f2c9a5 45%, #5f7f9e 70%, #2f4a6b 100%);
+}
+
+/* Натуральный рваный бумажный край на всю ширину без повторений */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 44px;
+  pointer-events: none;
+  filter: drop-shadow(0 -2px 3px rgba(25, 18, 12, 0.25));
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 44' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='tear' x='-5%25' y='-50%25' width='110%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035 0.18' numOctaves='4' seed='7' result='noise'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='18' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23tear)'%3E%3Crect x='-20' y='15' width='1480' height='45' fill='%23ffffff'/%3E%3Crect x='-20' y='18' width='1480' height='45' fill='%23f8f1e7'/%3E%3C/g%3E%3C/svg%3E") center bottom / 100% 100% no-repeat;
+}
+
+.hero__title {
+  max-width: 900px;
+}
+
+.logo {
+  margin: 0;
+  font-family: var(--font-logo);
+  font-weight: 400;
+  font-size: clamp(3.6rem, 9vw, 8rem);
+  line-height: 1;
+  color: var(--navy);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.15em;
+}
+
+/* золотая арка под заголовком */
+.logo::after {
+  content: "";
+  position: absolute;
+  left: 32%;       /* Сдвигает арку правее (увеличьте до 35-40%, если нужно еще правее) */
+  bottom: 20px;     /* Поднимает арку выше (чем больше число, тем выше линия; при 0 она в самом низу) */
+  width: 65%;      /* Делает арку компактнее по ширине, чтобы она не выходила за правый край */
+  height: 25px;    /* Высота изгиба дуги */
+  pointer-events: none;
+
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20" preserveAspectRatio="none"><defs><linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:transparent;stop-opacity:1" /><stop offset="15%" style="stop-color:rgb(212,175,55);stop-opacity:1" /><stop offset="85%" style="stop-color:rgb(212,175,55);stop-opacity:1" /><stop offset="100%" style="stop-color:transparent;stop-opacity:1" /></linearGradient></defs><path d="M0,18 Q50,2 100,18" stroke="url(%23gold-gradient)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.subtitle {
+  margin: 0.5em 0 0 clamp(0px, 50vw, 500px);
+  font-size: clamp(1.15rem, 2.4vw, 2rem);
+  line-height: 1.25;
+  color: var(--navy);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.55);
+}
+
+/* меню */
+.nav {
+  position: absolute;
+  top: clamp(16px, 2.5vw, 34px);
+  right: var(--page-pad);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav ul {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  display: block;
+  padding: 8px 18px;
+  border-radius: 6px;
+  color: var(--navy);
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.nav a:hover { background: rgba(255, 255, 255, 0.45); }
+
+.nav a[aria-current="page"] {
+  background: var(--navy);
+  color: #fff;
+}
+
+.nav__quill {
+  width: 80px;
+  height: 80px;
+  color: var(--navy);
+  flex: none;
+}
+
+/* слоган справа над водой */
+.tagline {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: clamp(60px, 9vw, 130px);
+  margin: 0;
+  font-family: var(--font-logo);
+  font-size: clamp(1.8rem, 3.8vw, 3.3rem);
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(15, 30, 55, 0.6);
+  transform: rotate(-3deg);
+}
+
+/* ===== ОСНОВНАЯ ЧАСТЬ ===== */
+
+.main {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0;
+  padding: 10px var(--page-pad) 50px;
+}
+
+/* приветствие */
+.welcome {
+  display: grid;
+  grid-template-columns: minmax(200px, 330px) 1fr;
+  gap: clamp(20px, 3vw, 44px);
+  align-items: start;
+  padding-right: clamp(20px, 3vw, 48px);
+}
+
+.portrait {
+  margin: 0;
+  padding: 12px 12px 15px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(40, 30, 20, 0.28);
+  transform: rotate(-10deg);
+}
+
+.portrait img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #bdb5aa; /* пока нет фото */
+  filter: grayscale(1) contrast(1.05);
+}
+
+.welcome__text { padding-top: 24px; }
+
+.welcome h2,
+.featured__title {
+  margin: 0;
+  font-weight: 400;
+  color: var(--navy);
+}
+
+.welcome h2 {
+  margin-bottom: 0.7em;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: 1.15;
+}
+
+.welcome p {
+  margin: 0 0 1em;
+  max-width: 34em;
+}
+
+.signature {
+  width: min(280px, 80%);
+  margin-top: 18px;
+  margin-left: auto;
+}
+
+/* избранное */
+.featured {
+  padding-left: clamp(20px, 3vw, 40px);
+  border-left: 1px solid rgba(31, 58, 95, 0.18);
+}
+
+.featured__title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.2;
+}
+
+.featured__title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2vw, 28px);
+}
+
+.work {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.work__card {
+  width: 100%;
+  display: block;
+  background: #fff;
+  border: 4px solid #fff;
+  box-shadow: 0 3px 12px rgba(40, 30, 20, 0.22);
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+}
+
+.work__card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: #cfc3b0; /* пока нет картинки */
+}
+
+.work__body {
+  padding: 14px 10px 18px;
+  min-height: 112px;
+  background: linear-gradient(180deg, var(--cream-dark), var(--cream));
+}
+
+.work__body h3 {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.work__body p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #4a4a4a;
+}
+
+.work__card:hover { box-shadow: 0 6px 18px rgba(40, 30, 20, 0.3); }
+
+/* ===== КНОПКИ ===== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-family: var(--font-serif);
+  white-space: nowrap;
+}
+
+.btn--outline {
+  padding: 8px 22px;
+  border: 1px solid var(--navy);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  color: var(--navy);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.btn--outline:hover {
+  background: var(--navy);
+  color: #fff;
+}
+
+.btn--solid {
+  padding: 16px 32px;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(31, 58, 95, 0.35);
+}
+
+.btn--solid:hover { background: var(--navy-deep); }
+
+.btn--solid svg {
+  width: 34px;
+  height: 26px;
+  flex: none;
+}
+
+/* ===== ПОДВАЛ ===== */
+
+.footer {
+  padding: 64px var(--page-pad) 22px;
+  /* img/skyline.png — акварельный силуэт города (по желанию) */
+  background:
+    /* Первое значение (100% или auto) — ширина, второе (180px) — высота */
+    url("img/skyline.png") center bottom / 100% 300px no-repeat,
+    linear-gradient(180deg, var(--cream) 0%, #dfe3ea 100%);
+}
+
+.footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer__quote {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 0;
+}
+
+.footer__quote::before,
+.footer__quote::after {
+  content: "";
+  flex: 1;
+  min-width: 24px;
+  height: 1px;
+  background: var(--navy);
+  opacity: 0.55;
+}
+
+.footer__quote p {
+  margin: 0;
+  max-width: none;
+  text-align: center;
+  font-style: italic;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  color: var(--navy);
+}
+
+.footer__note {
+  margin: 36px 0 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #1f3a5f;
+}
+
+/* ===== ПЛАНШЕТ ===== */
+
+@media (max-width: 1100px) {
+  .main { grid-template-columns: 1fr; gap: 48px; }
+  .welcome { padding-right: 0; }
+  .featured { padding-left: 0; border-left: 0; }
+
+  .nav { gap: 12px; }
+  .nav a { padding: 6px 12px; font-size: 0.95rem; }
+}
+
+/* ===== ТЕЛЕФОН ===== */
+
+@media (max-width: 760px) {
+  .hero { min-height: 0; padding-bottom: 90px; }
+
+  .nav {
+    position: static;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .nav ul { flex-wrap: wrap; }
+  .nav__quill { display: none; }
+
+  .subtitle { margin-left: 0; }
+
+  .tagline {
+    right: auto;
+    left: var(--page-pad);
+    bottom: 40px;
+    transform: none;
+  }
+
+  .welcome { grid-template-columns: 1fr; }
+  .portrait { max-width: 300px; margin: 0 auto; }
+  .signature { margin-right: auto; }
+
+  .cards { grid-template-columns: 1fr; }
+  .work__card { max-width: 340px; margin: 0 auto; }
+
+  .footer__row { flex-direction: column; }
+  .footer__quote { flex-direction: column; gap: 0; }
+  .footer__quote::before,
+  .footer__quote::after { display: none; }
+}
+
+/* ===== СТРАНИЦА «ПОДДЕРЖАТЬ АВТОРА» (support.html) ===== */
+
+/* атрибут hidden должен работать и у элементов с display в CSS */
+[hidden] { display: none !important; }
+
+.logo a { color: inherit; text-decoration: none; }
+
+.support {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px var(--page-pad) 60px;
+}
+
+.support-card {
+  padding: clamp(24px, 4vw, 48px);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(31, 58, 95, 0.12);
+  box-shadow: 0 6px 20px rgba(40, 30, 20, 0.16);
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a6420;
+}
+
+.support-card h1 {
+  margin: 0 0 0.5em;
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+.support-card p { margin: 0 0 1em; }
+
+.support-note {
+  font-style: italic;
+  color: #4a4a4a;
+}
+
+.support-card .featured__title { margin-top: 32px; }
+
+/* кнопки выбора суммы */
+.amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.amount-btn {
+  padding: 10px 28px;
+  border: 1px solid var(--navy);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--navy);
+  font: 700 1.1rem var(--font-serif);
+  cursor: pointer;
+}
+
+.amount-btn:hover { background: rgba(31, 58, 95, 0.1); }
+
+.amount-btn.active {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(31, 58, 95, 0.3);
+}
+
+.amount-btn:focus-visible,
+.btn-copy:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* блок оплаты */
+.pay {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px dashed rgba(31, 58, 95, 0.35);
+}
+
+.qr {
+  width: min(260px, 100%);
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(40, 30, 20, 0.22);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.qr img { width: 100%; height: auto; }
+
+.scanhint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #4a4a4a;
+}
+
+/* реквизиты */
+.details {
+  width: 100%;
+  max-width: 560px;
+  margin: 8px 0 0;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(31, 58, 95, 0.14);
+}
+
+.detail dt {
+  font-size: 0.85rem;
+  color: #55606e;
+}
+
+.detail dd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+}
+
+.detail dd span { overflow-wrap: anywhere; }
+
+.btn-copy {
+  flex: none;
+  padding: 4px 14px;
+  border: 1px solid rgba(31, 58, 95, 0.6);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--navy);
+  font: 0.85rem var(--font-serif);
+  cursor: pointer;
+}
+
+.btn-copy:hover { background: var(--navy); color: #fff; }
+
+@media (max-width: 760px) {
+  .hero--compact { min-height: 0; }
+  .detail { grid-template-columns: 1fr; gap: 2px; }
+}
